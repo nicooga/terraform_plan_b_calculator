@@ -17,6 +17,8 @@ export interface Item {
   id: ItemId;
   name: string;
   category: ItemCategory;
+  /** True for items with no recipe (extracted resources); terminates graph traversal */
+  raw: boolean;
 }
 
 // ─── Buildings ───────────────────────────────────────────────────────────────

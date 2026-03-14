@@ -49,6 +49,9 @@ Understand the domain well enough to define the core TypeScript types that will 
 - What does a crafting recipe look like (inputs, outputs, quantities, ratios)?
 - What buildings exist, and what recipes does each one handle?
 - How do we represent a "build requirement" (the calculator's output)?
+- **Terminal nodes:** `Item` carries a `raw: boolean` flag — raw items have no recipe and terminate graph traversal
+- **Acyclicity:** the recipe graph must be a DAG; enforce this with a cycle-detection pass (e.g. DFS with a visited set) rather than assuming it
+- **Quantity units:** the data model stores rates as `batchesPerYear`; the UI layer is responsible for converting to whatever unit is most readable (items/year, items/day, batches/year) — keep the conversion trivial and in one place
 
 **📄 Deliverable:** `src/types.ts` — canonical types for `Item`, `Recipe`, `Building`, and `BuildRequirement` (and any supporting types). Types must be grounded in real game data, not assumptions.
 
@@ -98,10 +101,15 @@ Implement the core calculation: given an item and a target quantity, compute the
 - Account for building throughput and crafting ratios
 - Return a structured `BuildRequirement[]` result
 - Cover edge cases: items with multiple recipe paths, raw resources with no recipe
+- **Fractions:** carry fractional building counts through the entire chain; never ceil mid-calculation — only at the display layer
+- **Byproduct crediting:** optional mode — when enabled, surplus outputs from multi-output recipes are credited and reduce upstream demand for those items
+- **Multiple recipe paths:** `calculate` accepts an optional `recipeSelections` map (`ItemId → RecipeId`) to resolve ambiguity; defaults to the first recipe if unspecified
 
 **📄 Deliverables:**
 
-- `src/calculator.ts` — a pure function `calculate(item, quantity) => BuildRequirement[]`
+- `src/calculator.ts` — two pure functions:
+  - `getAmbiguousItems(itemId) → ItemId[]` — returns all items in the chain that have multiple recipe paths; the UI calls this first to render recipe pickers before calculating
+  - `calculate(itemId, quantity, recipeSelections?) => BuildRequirement[]` — walks the recipe graph and returns one `BuildRequirement` per recipe step
 - `src/calculator.test.ts` — unit tests covering single-step recipes, multi-step chains, raw resources (no recipe), and items with multiple recipe paths
 
 ---
@@ -111,8 +119,11 @@ Implement the core calculation: given an item and a target quantity, compute the
 Build the player-facing interface. Keep it minimal and keyboard-friendly.
 
 - Item selector (searchable dropdown or autocomplete)
-- Quantity input
-- Results panel showing building types and counts
+- Quantity input (in items/year)
+- Results panel with two views: per-recipe breakdown and aggregated summary by building type
+- Building counts shown as fractionals — the user decides whether to ceil; a tooltip or label clarifies that the value means "at least N buildings needed"
+- For items with multiple recipe paths: a per-item recipe picker so the user can switch between options
+- Byproduct crediting toggle (checkbox with a clear description of what it does)
 - Basic keyboard navigation (tab through fields, submit on Enter)
 
 **📄 Deliverable:** A working single-page app wired to the calculator logic.
