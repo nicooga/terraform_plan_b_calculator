@@ -28,6 +28,19 @@ Provide an online interface where the player selects an item and a target quanti
 
 ## 📋 Phases
 
+### 0. 🏗️ Project Scaffolding
+
+Bootstrap the project so all subsequent phases have a working foundation to build on.
+
+- Initialize the project with `pnpm create vite` using the Solid + TypeScript template
+- Install dependencies
+- Verify the dev server starts and renders a basic page
+- Commit the clean scaffold as the baseline
+
+**📄 Deliverable:** A running Vite + Solid.js + TypeScript project with no application code yet.
+
+---
+
 ### 1. 🧠 Design
 
 Understand the domain well enough to define the core TypeScript types that will guide all subsequent work. Key questions to answer:
@@ -45,11 +58,17 @@ Understand the domain well enough to define the core TypeScript types that will 
 
 Research and encode all crafting recipes from the game by scraping the wiki. Each recipe must capture inputs, outputs, ratios, and the building that produces it.
 
+#### ⚠️ Pre-flight check
+
+Before writing the scraper, manually browse the wiki to verify recipe pages have consistent, parseable structure. If the wiki data is too inconsistent or sparse, encoding recipes by hand may be faster than scraping.
+
+
 #### 🕷️ Scraper script (`scripts/scrape.ts`)
 
 A Node.js/TypeScript script that fetches recipe data from the wiki and writes it to disk.
 
 Requirements:
+
 - **Idempotent** — running it multiple times produces the same output; safe to re-run at any time
 - **Resilient** — retries failed requests with exponential backoff; skips and logs individual page failures without aborting the whole run
 - **Fast** — fetches pages concurrently with a controlled concurrency limit (e.g. p-limit)
@@ -65,6 +84,7 @@ pnpm scrape --fresh  # bust cache and re-fetch everything
 ```
 
 **📄 Deliverables:**
+
 - `scripts/scrape.ts` — the scraper
 - `src/data/recipes.ts` — complete, typed recipe dataset produced by the scraper
 
@@ -79,7 +99,10 @@ Implement the core calculation: given an item and a target quantity, compute the
 - Return a structured `BuildRequirement[]` result
 - Cover edge cases: items with multiple recipe paths, raw resources with no recipe
 
-**📄 Deliverable:** `src/calculator.ts` — a pure function `calculate(item, quantity) => BuildRequirement[]`.
+**📄 Deliverables:**
+
+- `src/calculator.ts` — a pure function `calculate(item, quantity) => BuildRequirement[]`
+- `src/calculator.test.ts` — unit tests covering single-step recipes, multi-step chains, raw resources (no recipe), and items with multiple recipe paths
 
 ---
 
@@ -106,5 +129,6 @@ Connect all layers and ensure the app is ready to ship.
 - Deploy to GitHub Pages via a GitHub Actions workflow that builds and publishes on every push to `main`
 
 **📄 Deliverables:**
+
 - `.github/workflows/deploy.yml` — CI/CD pipeline that builds and deploys to GitHub Pages
 - Live, publicly accessible URL 🎉
