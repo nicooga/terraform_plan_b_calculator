@@ -126,6 +126,54 @@ Build the player-facing interface. Keep it minimal and keyboard-friendly.
 - Byproduct crediting toggle (checkbox with a clear description of what it does)
 - Basic keyboard navigation (tab through fields, submit on Enter)
 
+#### Mockup
+
+**Step 1 — Input**
+```
+┌──────────────────────────────────────┐
+│  Item     [ High-Tech Parts      ▾ ] │
+│  Quantity [ 30 ________________ ]    │
+│                                      │
+│  [ Calculate ]                       │
+└──────────────────────────────────────┘
+```
+
+**Step 2 — Recipe pickers (only shown for ambiguous items)**
+```
+┌──────────────────────────────────────┐
+│  Steel Bar   (●) Factory             │
+│              ( ) Recycling Center    │
+│                                      │
+│  Polymer Bar (●) Factory             │
+│              ( ) Recycling Center    │
+│                                      │
+│  [x] Credit byproducts               │
+│      Surplus outputs reduce upstream │
+│      demand for the same item        │
+└──────────────────────────────────────┘
+```
+
+**Step 3 — Results**
+```
+┌──────────────────────────────────────┐
+│  [ Summary ] [ Breakdown ]           │
+├──────────────────────────────────────┤
+│  Summary                             │
+│  ×6.5  Factory                       │
+│  ×9    Extractor                     │
+│  ×6    Atmospheric Extractor         │
+├──────────────────────────────────────┤
+│  Breakdown                           │
+│  ×1.5  Factory     Al + Poly → Hi-Tech Parts  │
+│  ×2    Factory     Iron Ore  → Aluminum Bar   │
+│  ×3    Factory     Carbon    → Polymer Bar    │
+│  ×9    Extractor   → Iron Ore                 │
+│  ×6    Atm. Extr.  → Carbon                   │
+│                                      │
+│  * fractional count = minimum needed │
+└──────────────────────────────────────┘
+```
+
 **📄 Deliverable:** A working single-page app wired to the calculator logic.
 
 ---
