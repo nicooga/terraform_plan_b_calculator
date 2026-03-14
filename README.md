@@ -1,27 +1,28 @@
-# 🪐 Terraform Plan B Calculator
+## Usage
 
-A crafting calculator for [**Plan B: Terraform**](https://store.steampowered.com/app/1894430/Plan_B_Terraform/) — the factory-building terraforming game by Gaddy Games.
+```bash
+$ npm install # or pnpm install or yarn install
+```
 
-## What is this?
+### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
 
-In Plan B: Terraform you build increasingly complex production chains to supply growing cities on a procedurally generated planet. Figuring out exactly how many buildings you need to hit a target output can get tedious — that's what this tool is for.
+## Available Scripts
 
-Enter an item and a target quantity, and the calculator tells you which production buildings to build and how many.
+In the project directory, you can run:
 
-## About the game
+### `npm run dev`
 
-[Plan B: Terraform](https://store.steampowered.com/app/1894430/Plan_B_Terraform/) is a calm, contemplative sci-fi city builder where you terraform a barren planet into a living world. Mine resources, build factories on a hex grid, grow cities, and simulate a full ecosystem — raising temperatures, unlocking underground ice, and watching rivers and forests spread across the landscape.
+Runs the app in the development mode.<br>
+Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
-- 🛒 [Steam page](https://store.steampowered.com/app/1894430/Plan_B_Terraform/)
-- 📖 [Official wiki](https://planbterraform.wiki.gg/wiki/Plan_B:_Terraform)
-- 💬 [Steam community](https://steamcommunity.com/app/1894430)
+### `npm run build`
 
-## Stack
+Builds the app for production to the `dist` folder.<br>
+It correctly bundles Solid in production mode and optimizes the build for the best performance.
 
-- [Solid.js](https://www.solidjs.com/) — fine-grained reactive UI
-- [Vite](https://vitejs.dev/) — build tooling
-- TypeScript
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-## Development
+## Deployment
 
-> 🚧 Work in progress — see [PLAN.md](./PLAN.md) for the roadmap.
+Learn more about deploying your application with the [documentations](https://vite.dev/guide/static-deploy.html)
